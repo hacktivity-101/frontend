@@ -9,7 +9,27 @@ const TodoList = () => {
     ]);
     
 const addTask = (e) => {
-    console.log(e.key);
+    if(e.code === 'Enter'){
+        console.log(e.target.value);
+
+        const obj = { text : e.target.value, completed: false};
+
+        setTaskList([ obj, ...taskList]);
+
+        e.target.value = '';
+    }
+}
+const deleteTask = (index) => {
+    //console.log(index);
+    const temp = taskList;
+    temp.splice(inbox, 1);
+    setTaskList([...temp]);
+}
+
+const completeTask = (index) => {
+     const temp = taskList;
+     temp[index].completed = true;
+     setTaskList([...temp])
 }
 
   return (
@@ -25,7 +45,26 @@ const addTask = (e) => {
                     
                     />
                 </div>
-                <div className='card-body'></div>
+                <div className='card-body'>
+                    {
+                        taskList.map((task, index) => {
+                            return <div key={index} className=' mb-4 d-flex justify-content-between'> 
+                            <p className='my-auto'>{task.text}</p>
+                            {task.completed ?
+                            <span className='badge bg-success'>Completed</span>
+                          :  <span className='badge bg-warning'>Pending</span>
+                    }
+                            <button onClick={() => { deleteTask(index) }} className='btn btn-danger'>Delete</button>
+                           <button onClick={ () => {completeTask(index)} } className='btn btn-primary'>
+                            Complete Task
+                           </button>
+                            </div>
+                       
+                    })
+                    }
+
+                    
+                </div>
 
 
             </div>
